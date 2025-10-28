@@ -6,10 +6,10 @@ const User = require("./models/user");
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-    console.log(req.body);
+  console.log(req.body);
 
-    //Creating new instance of User model with provided data
-    const user = new User(req.body);
+  //Creating new instance of User model with provided data
+  const user = new User(req.body);
   // const user = new User({
   //   firstName: "Virat",
   //   lastName: "Kohli",
@@ -50,6 +50,28 @@ app.get("/feed", async (req, res) => {
     res.status(400).send("something went wrong");
   }
 });
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    // const user = await User.findByIdAndDelete({_id:userId});
+    const user = await User.findByIdAndDelete(userId);
+    res.send("User deleted successfully");
+  } catch (error) {
+    res.status(400).send("Something went wrong");
+  }
+});
+
+app.patch("/user",async (req,res)=>{
+  const userId = req.body.userId;
+  const data = req.body;
+  try {
+    const user = await User.findByIdAndUpdate({_id:userId},data);
+    res.send("Updated data successfully");
+  } catch (error) {
+    res.status(400).send("Something went wrong");
+  }
+})
 
 connectDB()
   .then(() => {
