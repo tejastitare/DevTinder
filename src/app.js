@@ -21,7 +21,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User registered successfully");
   } catch (err) {
-    res.status(400).send("Error registering user: ", +err.message);
+    res.status(400).send("Error registering user: ", err);
   }
 });
 
@@ -62,16 +62,20 @@ app.delete("/user", async (req, res) => {
   }
 });
 
-app.patch("/user",async (req,res)=>{
+app.patch("/user", async (req, res) => {
   const userId = req.body.userId;
   const data = req.body;
   try {
-    const user = await User.findByIdAndUpdate({_id:userId},data);
+    const user = await User.findByIdAndUpdate({ _id: userId }, data, {
+      returnDocument: "after",
+      runValidators: true,
+    });
+    console.log(user);
     res.send("Updated data successfully");
   } catch (error) {
-    res.status(400).send("Something went wrong");
+    res.status(403).send("Something went wrong");
   }
-})
+});
 
 connectDB()
   .then(() => {
