@@ -6,7 +6,7 @@ const User = require("./models/user");
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   //Creating new instance of User model with provided data
   const user = new User(req.body);
@@ -21,7 +21,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User registered successfully");
   } catch (err) {
-    res.status(400).send("Error registering user: ", err);
+    res.status(400).send("Error registering user: "+err.message);
   }
 });
 
