@@ -1,9 +1,9 @@
 const express = require("express");
-const requestsRouter = express.Router();
+const requestRouter = express.Router();
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequestModel = require("../models/connectionRequest");
 const User = require("../models/user");
-requestsRouter.post(
+requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
   async (req, res) => {
@@ -36,7 +36,7 @@ requestsRouter.post(
           .status(400)
           .json({ message: "You have already sent a request to this user" });
       }
-      
+
       const ConnectionRequest = new ConnectionRequestModel({
         fromUserId,
         toUserId,
@@ -46,7 +46,8 @@ requestsRouter.post(
       const data = await ConnectionRequest.save();
 
       res.json({
-        message:req.user.firstName+" is "+ status +" in "+ toUser.firstName,
+        message:
+          req.user.firstName + " is " + status + " in " + toUser.firstName,
         data,
       });
     } catch (error) {
@@ -55,4 +56,41 @@ requestsRouter.post(
   }
 );
 
-module.exports = requestsRouter;
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const { status, requestId } = req.params;
+      const loggedInUser = req.user;
+
+      const allowedStatus = ["accepted", "rejected"];
+      if (!allowedStatus.includes(status)) {
+        return res
+          .status(400)
+          .json({ message: "Invalid Status type " + status });
+      }
+      const connectionRequest = await ConnectionRequestModel.findOne({
+        _id: requestId,
+        toUserId: loggedInUser._id,
+        status: "interested",
+      });
+
+      if (!connectionRequest) {
+        return res.status(400).json({
+          message: "You can't accept or reject this request",
+        });
+      }
+      connectionRequest.status = status;
+      const data = await connectionRequest.save();
+      res.json({
+        message: "Your have " + status + " this request",
+        data,
+      });
+    } catch (error) {
+      res.status(403).json({ message: "Error :" + error.message });
+    }
+  }
+);
+
+module.exports = requestRouter;
