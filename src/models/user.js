@@ -49,11 +49,14 @@ const userSchema = new mongoose.Schema(
     photoUrl: {
       type: String,
       validate(value) {
-        if (!validator.isURL(value)) {
-          throw new Error("Invalid Phot Url:" + value);
+        const isBase64 = value.startsWith("data:image/");
+        const isValidURL = validator.isURL(value);
+        if (!isBase64 && !isValidURL) {
+          throw new Error("Invalid Photo Url: " + value);
         }
       },
     },
+
     about: {
       type: String,
       default: "This is the default about of the User!",

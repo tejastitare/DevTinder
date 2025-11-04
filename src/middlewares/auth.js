@@ -6,7 +6,7 @@ const userAuth = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
-      throw new Error("Invalid token!!!!!");
+      res.status(401).send("You are not logged in");
     }
 
     const decodedObj = jwt.verify(token, "my@secretKey");
@@ -20,8 +20,6 @@ const userAuth = async (req, res, next) => {
   } catch (error) {
     res.status(400).send("Error : " + error.message);
   }
-  //Validate the token
-  //Find the user
 };
 
 module.exports = {

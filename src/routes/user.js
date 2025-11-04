@@ -67,7 +67,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    limit = limit > 50 ? 50 : limit;
+    limit > 50 ? 50 : limit;
     const skip = (page - 1) * limit;
     const loggedInUser = req.user;
 
@@ -93,7 +93,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
 
     res.send(users);
   } catch (error) {
-    res.status(500).json({ message: "Error :" + error.message });
+    res.status(401).json({ message: "Error :" + error.message });
   }
 });
 

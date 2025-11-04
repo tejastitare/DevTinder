@@ -31,8 +31,11 @@ authRouter.post("/signup", async (req, res) => {
     //   password: "virat123",
     // });
 
-    await user.save();
-    res.send("User registered successfully");
+    const savedUser = await user.save();
+    const token = savedUser.getJWT();
+    res.cookie("token", token);
+
+    res.json({ message: "User registered successfully", data: savedUser });
   } catch (error) {
     res.status(400).send("Error registering user: " + error.message);
   }
@@ -48,9 +51,14 @@ authRouter.post("/login", async (req, res) => {
     const isPasswordValid = await user.passwordValidator(password);
     if (isPasswordValid) {
       const token = user.getJWT();
-      res.cookie("token", token);
+      res.cookie("token", token,{
+        expires: new Date(Date.now() + 8 * 3600000);
+      });
 
-      res.send(user +" User logged in successfully");
+      res.json({
+        message: user.firstName + " logged in successfully",
+        user: user,
+      });
     } else {
       throw new Error("Invalid Credentials");
     }
