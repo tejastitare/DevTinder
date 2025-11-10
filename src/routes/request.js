@@ -3,6 +3,8 @@ const requestRouter = express.Router();
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequestModel = require("../models/connectionRequest");
 const User = require("../models/user");
+const sendEmail = require("../utils/sendEmail");
+
 requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
@@ -44,7 +46,8 @@ requestRouter.post(
       });
 
       const data = await ConnectionRequest.save();
-
+      const emailRes = await sendEmail.run();
+      console.log(emailRes);
       res.json({
         message:
           req.user.firstName + " is " + status + " in " + toUser.firstName,
