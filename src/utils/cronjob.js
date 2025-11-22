@@ -1,6 +1,6 @@
 const cron = require("node-cron");
 const sendEmail = require("./sendEmail");
-import ConnectionRequestModel from "../models/connectionRequest";
+const ConnectionRequestModel = require("../models/connectionRequest")
 const { subDays, startOfDay, endOfDay } = require("date-fns");
 
 // scheduled for every morining At 8 AM 

@@ -50,3 +50,21 @@
 
 https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/ses-examples-sending-email.html
 
+
+**Razorpay payment gateway Intgration**
+
+ - SignUp on Razorpay and complete KYC
+ - Created a UI for Premium Page
+ - Creating an API for create order in backend
+ - added the key and secret in env file
+ - Initialized Razorpay in utils
+ - Creating order on Razorpay
+ - Create Schema and model
+ - saved the order in payments collection
+ - make the API dynamic
+ - Setup Razorpay webhook on your live API
+ - Ref - https://github.com/razorpay-node/tree/master/documents
+ - Ref - https://razorpay.com/docs/payments/server-integration/nodejs/integration-steps/#integrate-with-razorpay-payment-gateway
+
+- Ref - https://razorpay.com/docs/webhooks/validate-test/
+- Ref - https://razorpay.com/docs/webhooks/payloads/payments/
