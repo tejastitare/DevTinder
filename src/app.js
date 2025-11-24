@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 require("dotenv").config();
 require("./utils/cronjob");
-
+const http = require("http");
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -20,16 +20,23 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const paymentRouter = require("./routes/payment");
+const chatRouter = require("./routes/chatRouter");
+const initializeSocket = require("./utils/socket");
+
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
+app.use("/", chatRouter);
+const server = http.createServer(app);
+
+initializeSocket(server);
 
 connectDB()
   .then(() => {
     console.log("MongoDB Connection Established");
-    app.listen(process.env.PORT, () => console.log("Server is running on port 7777"));
+    server.listen(process.env.PORT, () => console.log("Server is running on port 7777"));
   })
   .catch((err) => console.error("MongoDB Connection Error:"));

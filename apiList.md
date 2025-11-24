@@ -68,3 +68,20 @@ https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/ses-examples-s
 
 - Ref - https://razorpay.com/docs/webhooks/validate-test/
 - Ref - https://razorpay.com/docs/webhooks/payloads/payments/
+
+
+**Real Time chat using Websockets(Socket.io)**
+- Build the UI for chat window cchat/:targetUserId
+- Setup socket.io in backend
+- npm i socket.io
+- Setup frontend socket.io-client
+- Initialise the chat   
+- create socket connection
+- Listen to events
+- Homework: Improve the UI
+- Homework: Fix security Bug - Can I send messages to person who is not my friend? - auth in web sockets
+- Homework: Fix bug - If I'm not friend, then I should not be able to send message
+- Homework: feat: Show green symbol when Online???? - [ Last seen 2 hours ago ]
+- Homework: Limit messages when fetching from DB OR Pagination in chats
+- Project Ideas - TIC TAC TOE GAME
+- Project Ideas - CHESS GAME
