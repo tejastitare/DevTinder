@@ -2,7 +2,7 @@
   "name": "devtinder-project",
   "version": "1.0.0",
   "description": "DevTinder is the backend project where developers can make friends related to their domain",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"

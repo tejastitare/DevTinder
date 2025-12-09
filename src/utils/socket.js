@@ -24,7 +24,7 @@ const initializeSocket = (server) => {
       const roomId = getSecretRoomId(userId, targetUserId);
       console.log(firstName + " joined room " + roomId);
       socket.join(roomId);
-    });
+    }); 
 
     socket.on(
       "sendMessage",
