@@ -6,12 +6,26 @@ const cors = require("cors");
 require("dotenv").config();
 require("./utils/cronjob");
 const http = require("http");
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://developers-connect.netlify.app",
+];
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // mobile apps, curl, etc
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS Not Allowed"), false);
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
