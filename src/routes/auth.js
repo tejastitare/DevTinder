@@ -33,7 +33,15 @@ authRouter.post("/signup", async (req, res) => {
 
     const savedUser = await user.save();
     const token = savedUser.getJWT();
-    res.cookie("token", token);
+    const isProd = process.env.NODE_ENV === "production";
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProd, // true only in production
+      sameSite: isProd ? "none" : "lax", // none only in production (cross-site)
+      path: "/",
+      expires: new Date(Date.now() + 8 * 3600000),
+    });
 
     res.json({ message: "User registered successfully", data: savedUser });
   } catch (error) {
@@ -51,8 +59,14 @@ authRouter.post("/login", async (req, res) => {
     const isPasswordValid = await user.passwordValidator(password);
     if (isPasswordValid) {
       const token = user.getJWT();
-      res.cookie("token", token,{
-        expires: new Date(Date.now() + 8 * 3600000)
+      const isProd = process.env.NODE_ENV === "production";
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: isProd, // true only in production
+        sameSite: isProd ? "none" : "lax", // none only in production (cross-site)
+        path: "/",
+        expires: new Date(Date.now() + 8 * 3600000),
       });
 
       res.json({
