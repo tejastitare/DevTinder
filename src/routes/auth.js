@@ -82,19 +82,20 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/logout", async (req, res) => {
-  const isProd = process.env.NODE_ENV === "production";
+  try {
+    const isProd = process.env.NODE_ENV === "production";
 
-  res.clearCookie(
-    "token",
-    { expires: new Date(Date.now()) },
-    {
+    res.clearCookie("token", {
       httpOnly: true,
       secure: isProd,
       sameSite: isProd ? "none" : "lax",
       path: "/",
-    }
-  );
-  res.send("User logged out successfully");
-});
+    });
 
+    return res.json({ message: "User logged out successfully" });
+  } catch (err) {
+    console.error("Logout error:", err);
+    return res.status(500).json({ message: "Logout failed" });
+  }
+});
 module.exports = authRouter;
