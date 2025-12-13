@@ -57,6 +57,6 @@ initializeSocket(server);
 connectDB()
   .then(() => {
     console.log("MongoDB Connection Established");
-    server.listen(PORT, () => console.log("Server is running on port 7777"));
+    server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
   })
   .catch((err) => console.error("MongoDB Connection Error:"));
