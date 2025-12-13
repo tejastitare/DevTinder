@@ -6,6 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 require("./utils/cronjob");
 const http = require("http");
+const PORT = process.env.PORT || 7777;
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -48,9 +49,13 @@ const server = http.createServer(app);
 
 initializeSocket(server);
 
+app.get("/", (req, res) => {
+  res.send("DevTinder backend is live! 🚀");
+});
+
 connectDB()
   .then(() => {
     console.log("MongoDB Connection Established");
-    server.listen(process.env.PORT, () => console.log("Server is running on port 7777"));
+    server.listen(PORT, () => console.log("Server is running on port 7777"));
   })
   .catch((err) => console.error("MongoDB Connection Error:"));
