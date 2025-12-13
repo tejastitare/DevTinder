@@ -8,6 +8,10 @@ require("./utils/cronjob");
 const http = require("http");
 const PORT = process.env.PORT || 7777;
 
+app.get("/", (req, res) => {
+  res.send("DevTinder backend is live! 🚀");
+});
+
 const allowedOrigins = [
   "http://localhost:5173",
   "https://developers-connect.netlify.app",
@@ -49,9 +53,6 @@ const server = http.createServer(app);
 
 initializeSocket(server);
 
-app.get("/", (req, res) => {
-  res.send("DevTinder backend is live! 🚀");
-});
 
 connectDB()
   .then(() => {
